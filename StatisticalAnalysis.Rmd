@@ -1,0 +1,492 @@
+---
+title: "Trabalho de Probabilidade e Estatística"
+author: "Brainer Sueverti de Campos - 790829 | Thiago Martins - 790964"
+date: "20/04/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, include=FALSE}
+  #install.packages("readr");
+  #install.packages("ggplot2");
+  #install.packages("dplyr");
+  #install.packages("hrbrthemes");
+  #install.packages("tidyverse");
+  library(readr)
+  library(ggplot2)
+  library(dplyr)
+  library(hrbrthemes)
+  library(tidyverse)
+```
+```{r,warning=FALSE}
+  #install.packages("readr");
+  #install.packages("ggplot2");
+  #install.packages("dplyr");
+  #install.packages("hrbrthemes");
+  #install.packages("tidyverse");
+  #library(readr)
+  #library(ggplot2)
+  #library(dplyr)
+  #library(hrbrthemes)
+  #library(tidyverse)
+```
+
+```{r, include=FALSE}
+  data <- read_csv("BasePE.csv")
+  summary(data)
+  overallqual <- data$OverallQual
+  overallcond <- data$OverallCond
+  yearbuilt <- data$YearBuilt
+  GarageCars <- data$GarageCars
+  SalePrice <- data$SalePrice
+```
+
+##    As analises Univariadas forma feitas nas 5 variaveis (SalePrice, OverallQual, OverallCond,YearBuilt e GarageCars). Calculamos média, mediana,intervalo, distância interquartilica, variância, desvio padrão, tabela de frequência, boxplot, histograma e gráfico de densidade.
+## OverrallQual (índice de qualidade geral)
+##    A variável OverallQuall está levemente à direita ao analisar o grafico de densidade, histograma e o boxplot. Analisando númericamente vemos que os valores a diretita na tabela de frequência estão maiores também.
+```{r, warning=FALSE}
+cat("Média: ", mean(overallqual),"\n")
+cat("Mediana:",median(overallqual),"\n")
+cat("Intervalo:",max(overallqual) - min(overallqual),"\n")
+cat("Distancia Interquartilica:",IQR(overallqual),'\n')
+cat('Variância:',var(overallqual),'\n')
+cat('Desvio Padrão:',sd(overallqual),'\n')
+cat('\nTabela de Frequência')
+table(overallqual)
+boxplot(overallqual,
+main = "BoxPlot - OVERALLQUALL",
+ylab = "OveralQuall",
+col = "#8b008b",
+border = "black",
+notch = TRUE
+)
+
+p <- data %>%
+  ggplot( aes(x=overallqual)) +
+    geom_histogram( binwidth=1, fill="#8b008b", color="#000000", alpha=0.9) +
+    ggtitle('Histograma - OVERALLQUAL') +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+
+data %>%
+  ggplot( aes(x=overallqual)) +
+    geom_density(fill="#8b008b", color="#000000", alpha=0.8) +
+    ggtitle("Densidade - OVERALLQUAL")
+```
+
+## OverrallCond(índice do estado do imóvel)
+##    A variável OverralCond segue a mesma tendência da Variável OverralQual com um leve deslocamento à direita, indicado uma leve tendência a imóveis em bom estado.
+```{r, warning=FALSE}
+cat("Média: ", mean(overallcond),"\n")
+cat("Mediana:",median(overallcond),"\n")
+cat("Intervalo:",max(overallcond) - min(overallcond),"\n")
+cat("Distancia Interquartilica:",IQR(overallcond),'\n')
+cat('Variância:',var(overallcond),'\n')
+cat('Desvio Padrão:',sd(overallcond),'\n')
+cat('\nTabela de Frequência')
+table(overallcond)
+boxplot(overallcond,
+main = "BoxPlot - OVERALLCOND",
+ylab = "overallcond",
+col = "#000099",
+border = "black",
+notch = TRUE
+)
+
+p <- data %>%
+  ggplot( aes(x=overallcond)) +
+    geom_histogram( binwidth=1, fill="#000099", color="#000000", alpha=0.9) +
+    ggtitle('Histograma - OVERALLCOND') +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+
+data %>%
+  ggplot( aes(x=overallcond)) +
+    geom_density(fill="#000099", color="#000000", alpha=0.8) +
+    ggtitle("Densidade - OVERALLCOND")
+```
+
+## YearBuilt(ano em que casa foi construída)
+##    A variável YearBuilt tem um compartamento diferente, pois ela aumenta sua frequência ao aumentar o ano. Além disso, os gráficos mostram uma tendência total para direita com um comportamento crescente, prova disso numéricamente são a média e a mediada (1971.268, 1973) em um intervalo de 1872 e 2010.
+
+```{r, warning=FALSE}
+cat("Média: ", mean(yearbuilt),"\n")
+cat("Mediana:",median(yearbuilt),"\n")
+cat("Intervalo:",max(yearbuilt) - min(yearbuilt),"\n")
+cat("Distancia Interquartilica:",IQR(yearbuilt),'\n')
+cat('Variância:',var(yearbuilt),'\n')
+cat('Desvio Padrão:',sd(yearbuilt),'\n')
+cat('\nTabela de Frequência')
+table(yearbuilt)
+boxplot(yearbuilt,
+main = "BoxPlot - YEARBUILT",
+ylab = "yearbuilt",
+col = "#006600",
+border = "black",
+notch = TRUE
+)
+
+p <- data %>%
+  ggplot( aes(x=yearbuilt)) +
+    geom_histogram( binwidth=5, fill="#006600", color="#000000", alpha=0.9) +
+    ggtitle('Histograma - YEARBUILT') +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+
+data %>%
+  ggplot( aes(x=yearbuilt)) +
+    geom_density(fill="#006600", color="#000000", alpha=0.8) +
+    ggtitle("Densidade - YEARBUILT")
+```
+
+## GarageCars(quantidades de carro que cabem na garagem da casa)
+##    A variável GarageCars segue um comportamento contrário às outras variáveis ao analisar os gráficos, visto que ela tem um tendência levemente para a esquerda, ou seja, há um frequência um pouco maior para garagens que cabem menos carros. Contudo, a mediana mostra que uma centralidade dos valores. 
+```{r, warning=FALSE}
+cat("Média: ", mean(GarageCars),"\n")
+cat("Mediana:",median(GarageCars),"\n")
+cat("Intervalo:",max(GarageCars) - min(GarageCars),"\n")
+cat("Distancia Interquartilica:",IQR(GarageCars),'\n')
+cat('Variância:',var(GarageCars),'\n')
+cat('Desvio Padrão:',sd(GarageCars),'\n')
+cat('\nTabela de Frequência')
+table(GarageCars)
+boxplot(GarageCars,
+main = "BoxPlot - GARAGECARS",
+ylab = "GarageCars",
+col = "#cc0000",
+border = "black",
+notch = TRUE
+)
+
+p <- data %>%
+  ggplot( aes(x=GarageCars)) +
+    geom_histogram( binwidth=1, fill="#cc0000", color="#000000", alpha=0.9) +
+    ggtitle('Histograma - GARAGECARS') +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+
+data %>%
+  ggplot( aes(x=GarageCars)) +
+    geom_density(fill="#cc0000", color="#000000", alpha=0.8) +
+    ggtitle("Densidade - GARAGECARS")
+```
+
+## SalePrice(Preço de venda)
+## A variável SalePrice segue um comportamento parecido com a variável GarageCars ao analisar os gráficos, visto que ela tem um tendência fortemente para a esquerda, ou seja, há um frequência maior para a venda de casas com preços menores.
+```{r, warning=FALSE}
+cat("Média: ", mean(SalePrice),"\n")
+cat("Mediana:",median(SalePrice),"\n")
+cat("Intervalo:",max(SalePrice) - min(SalePrice),"\n")
+cat("Distancia Interquartilica:",IQR(SalePrice),'\n')
+cat('Variância:',var(SalePrice),'\n')
+cat('Desvio Padrão:',sd(SalePrice),'\n')
+cat('\nTabela de Frequência')
+table(SalePrice)
+boxplot(SalePrice,
+main = "BoxPlot - SALEPRICE",
+ylab = "SalePrice",
+col = "#cc0000",
+border = "black",
+notch = TRUE
+)
+
+p <- data %>%
+  ggplot( aes(x=SalePrice)) +
+    geom_histogram( binwidth=1, fill="#cc0000", color="#000000", alpha=0.9) +
+    ggtitle('Histograma - SALEPRICE') +
+    theme(
+      plot.title = element_text(size=15)
+    )
+p
+
+data %>%
+  ggplot( aes(x=SalePrice)) +
+    geom_density(fill="#cc0000", color="#000000", alpha=0.8) +
+    ggtitle("Densidade - SALEPRICE")
+```
+
+## As analises bivariadas foram feitas entre a variavel Saleprice e as demais variáveis. Calculamos a correlação e o gráfico de dispersão. As correlações mostram a relação entre duas variáveis se forem positiva possuem um comportamento crescente, se forem negativas possuem um comportamenteo descrescente e se for próximo de zero possuem um comportamento constante. Os gráficos de dispersão relacionam as duas variáveis em um plano cartersiano (demais variáveis,SalePrice).
+
+## A Correlação entre OveralQual e SalePrice é positiva e próxima de 1 , isto quer dizer que possui um comportamento crescente forte. Prova disso visualmente, é o gráfico de dispersão entre as duas variáveis que é crescente. Ademais, isso quer dizer que quanto melhor o indice de qualidade do imóvel maior é seu valor de venda. 
+
+```{r warning=FALSE}
+cat("Correlação OverallQual: ", cor(data$OverallQual,data$SalePrice),"\n")
+ggplot(data, aes(x= OverallQual, y=SalePrice)) + 
+  ggtitle("Grafico de Dispersão - OverallQual") + 
+  geom_point(size=4, color="#8b008b")
+```
+
+## A Correlação entre OverallCond e  SalePrice é -0.077 quer dizer que é próxima de zero, ou seja, o comportamento é constante. Prova disso visualmente, é o gráfico de dispersão entre as duas variáveis é relativamente constante, porém há um leve decremento a partir do meio do gráfico (por isso é negativo). Ademais, isso mostra que o Índice da condição de estado do imóvel é relativamente constante ao valor de venda.
+```{r warning=FALSE}
+cat("Correlação OverallCond: ", cor(data$OverallCond,data$SalePrice),"\n")
+ggplot(data, aes(x= OverallCond, y=SalePrice)) + 
+  ggtitle("Grafico de Dispersão - OverallCond") + 
+  geom_point(size=4, color="#000099")
+```
+
+## A Correlação entre YearBuilt e SalePrice é de 0.523, isto quer dizer que é crescente e mais próxima de 1, ou seja, é um leve comportamento crescente. Prova disso visualmente, é o gráfico de dispersão entre as duas variáveis que é levemente crescente. Ademais, isso quer dizer que quanto mais nova a casa maior seu valor, mas é uma proporção relativamente pequena.  
+
+```{r warning=FALSE}
+cat("Correlação YearBuilt: ", cor(data$YearBuilt,data$SalePrice),"\n")
+ggplot(data, aes(x= YearBuilt, y=SalePrice)) + 
+  ggtitle("Grafico de Dispersão - YearBuilt") + 
+  geom_point(size=4, color="#006600")
+```
+
+## A Correlação entre GarageCars e SalePrice é 0.64, isto quer dizer que a relação possui um comportamento crescente. Prova disso visualmente, é o gráfico de dispersão entre as duas variáveis que é crescente. Ademais, isso quer dizer que quanto mais carro que couber na garage maior é o valor do imóvel.
+
+```{r warning=FALSE}
+cat("Correlação GarageCars: ", cor(data$GarageCars,data$SalePrice),"\n")
+ggplot(data, aes(x= GarageCars, y=SalePrice)) + 
+  ggtitle("Grafico de Dispersão - GarageCars") + 
+  geom_point(size=4, color="#cc0000")
+
+```
+
+## REGRESSÕES LINEARES com as analises de resíduos.
+## Regressão Linear para OverellQual sem ajustes.
+```{r, warning=FALSE}
+fit1 <- lm(SalePrice ~ OverallQual, data = data) 
+data$predicted <- predict(fit1)   
+data$residuals <- residuals(fit1)
+ggplot(data, aes(x = OverallQual, y = SalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +      
+  geom_segment(aes(xend = OverallQual, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                            
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Linear sem ajustes - OverallQual")+
+  theme_bw()
+```
+
+##      Ao analisar a normalidade dos resíduos com o shapiro.test() verificamos que o p-value é muito próximo de zero o que quer dizer que eles não seguem uma normalidade e que os intervalos de confiança estão comprometidos.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit1))
+plot(fit1,which = 1,col=c("#8b008b"))
+```
+
+##      Para tentar chegar em uma normalidade aplicamos um log na variável SalePrice.
+
+```{r,warning=FALSE}
+logSalePrice <- log(data$SalePrice)
+fit <- lm(logSalePrice ~ OverallQual, data = data) 
+data$predicted <- predict(fit)   
+data$residuals <- residuals(fit)
+ggplot(data, aes(x = OverallQual, y = logSalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +     
+  geom_segment(aes(xend = OverallQual, yend = predicted), alpha = .2) +     
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Lienar com ajustes - OverallQual")+
+  theme_bw()
+```
+
+##    Verificamos o p-value. Contudo, ainda encontramos um valor muito próximo de zero que faz com que não cheguemos em uma normalidade.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit))
+plot(fit,which = 1,col=c("#8b008b"))
+
+```
+
+##     Fizemos o mesmo processo da variavel OverallQual nas demais variáveis para tentar atingir a normalidade.
+
+##     Regressão Linear para OverellCond sem ajustes.
+
+```{r, warning=FALSE}
+fit2 <- lm(SalePrice ~ OverallCond, data = data) 
+data$predicted <- predict(fit2)   
+data$residuals <- residuals(fit2)
+ggplot(data, aes(x = OverallCond, y = SalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +      
+  geom_segment(aes(xend = OverallCond, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Linear sem ajustes - OverallCond")+
+  theme_bw()
+```
+
+##     Ao analisar a normalidade dos resíduos com o shapiro.test() verificamos que o p-value é muito próximo de zero o que quer dizer que eles não seguem uma normalidade e que os intervalos de confiança estão comprometidos.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit2))
+plot(fit2,which = 1,col=c("#8b008b"))
+```
+
+##     Para tentar chegar em uma normalidade aplicamos um log na variável SalePrice.
+
+```{r,warning=FALSE}
+logSalePrice <- log(data$SalePrice)
+fit <- lm(logSalePrice ~ OverallCond, data = data) 
+data$predicted <- predict(fit)   
+data$residuals <- residuals(fit) 
+ggplot(data, aes(x = OverallCond, y = logSalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +      
+  geom_segment(aes(xend = OverallCond, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Lienar com ajustes - OverallCond")+
+  theme_bw()
+```
+
+##     Verificamos o p-value. Contudo, ainda encontramos um valor muito próximo de zero que faz com que não cheguemos em uma normalidade.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit))
+plot(fit,which = 1,col=c("#8b008b"))
+```
+
+##     Regressão Linear para YearBuilt sem ajustes.
+
+```{r, warning=FALSE}
+fit3 <- lm(SalePrice ~ YearBuilt, data = data) 
+data$predicted <- predict(fit3)   
+data$residuals <- residuals(fit3) 
+ggplot(data, aes(x = YearBuilt, y = SalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +       
+  geom_segment(aes(xend = YearBuilt, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Linear sem ajustes - YearBuilt")+
+  theme_bw()
+```
+
+##     Ao analisar a normalidade dos resíduos com o shapiro.test() verificamos que o p-value é muito próximo de zero o que quer dizer que eles não seguem uma normalidade e que os intervalos de confiança estão comprometidos.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit3))
+plot(fit3,which = 1,col=c("#8b008b"))
+```
+
+##     Para tentar chegar em uma normalidade aplicamos um log na variável SalePrice.
+
+```{r,warning=FALSE}
+logSalePrice <- log(data$SalePrice)
+fit <- lm(logSalePrice ~ YearBuilt, data = data) 
+data$predicted <- predict(fit)   
+data$residuals <- residuals(fit)
+ggplot(data, aes(x = YearBuilt, y = logSalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +    
+  geom_segment(aes(xend = YearBuilt, yend = predicted), alpha = .2) +     
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) + 
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Lienar com ajustes - YearBuilt")+
+  theme_bw()
+```
+
+##     Verificamos o p-value. Contudo, ainda encontramos um valor muito próximo de zero que faz com que não cheguemos em uma normalidade.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit))
+plot(fit,which = 1,col=c("#8b008b"))
+```
+
+##     Regressão Linear para GarageCars sem ajustes.
+
+```{r, warning=FALSE}
+fit4 <- lm(SalePrice ~ GarageCars, data = data) 
+data$predicted <- predict(fit4)   
+data$residuals <- residuals(fit4) 
+ggplot(data, aes(x = GarageCars, y = SalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +      
+  geom_segment(aes(xend = GarageCars, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Linear sem ajustes - GarageCars")+
+  theme_bw()
+```
+
+##     Ao analisar a normalidade dos resíduos com o shapiro.test() verificamos que o p-value é muito próximo de zero o que quer dizer que eles não seguem uma normalidade e que os intervalos de confiança estão comprometidos.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit4))
+plot(fit4,which = 1,col=c("#8b008b"))
+```
+
+##     Para tentar chegar em uma normalidade aplicamos um log na variável SalePrice.
+
+```{r,warning=FALSE}
+logSalePrice <- log(data$SalePrice)
+fit <- lm(logSalePrice ~ GarageCars, data = data) 
+data$predicted <- predict(fit)   
+data$residuals <- residuals(fit) 
+ggplot(data, aes(x = GarageCars, y = logSalePrice)) +
+geom_smooth(formula = y ~ x, method = "lm", se = TRUE, color = "8b008b") +       
+  geom_segment(aes(xend = GarageCars, yend = predicted), alpha = .2) +      
+  geom_point(aes(color = abs(residuals), size = abs(residuals))) +  
+  scale_color_continuous(low = "green", high = "red") +             
+  guides(color = FALSE, size = FALSE) +                             
+  geom_point(aes(y = predicted), shape = 1) +
+  ggtitle("Regressão Lienar com ajustes - GarageCars")+
+  theme_bw()
+```
+
+##     Verificamos o p-value. Contudo, ainda encontramos um valor muito próximo de zero que faz com que não cheguemos em uma normalidade.
+
+```{r,warning=FALSE}
+shapiro.test(residuals(fit))
+plot(fit,which = 1,col=c("#8b008b"))
+```
+
+## Sendo assim, verificamos que não conseguimos definir uma regressão linear bem ajustada, visto que usamos o modelo simples. Contudo, mesmo assim iremos calcular os intervalos e confiança.
+
+## Intervalos de Confiança para a Variável OverllQual utilizando a função confint().
+
+```{r,warning=FALSE}
+confint(fit1)
+```
+
+## Intervalos de Confiança para a Variável OverllCond utilizando a função confint().
+
+```{r,warning=FALSE}
+confint(fit2)
+```
+
+## Intervalos de Confiança para a Variável YearBuilt utilizando a função confint().
+
+```{r,warning=FALSE}
+confint(fit3)
+```
+
+## Intervalos de Confiança para a Variável GarageCars utilizando a função confint().
+
+```{r,warning=FALSE}
+confint(fit4)
+```
+## Concluimos que conseguimos determinar algumas relações e informações acerca da leitura e interpretação dos dados, algumas dela: 'conforme a qualidade do imóvel aumenta o seu preço de venda aumentará também', 'quanto mais carros couber na garagem do imóvel maior será o preço de venda', frequências etc. Ademais, a normalidade dos resíduos não foi suficiente para gerar um intervalo de confiança para o coeficiente da angular da regressão linear mesmo realizando alguns ajustes, visto que foi feita uma regressão linear simples.
+
+## As referências necessárias para a realização desse trabalho estão abaixo em forma de links. Agradecemos a todos os autores pelo conhecimento compartilhado.
+
+##  - Prof. Afrânio Vieira por todas as aulas
+##  - https://r-graph-gallery.com/index.html  (Gráficos)
+##  - https://www.statology.org/univariate-analysis-in-r/
+##  - https://www.statology.org/bivariate-analysis-in-r/
+##  - https://rpubs.com/iabrady/residual-analysis
+##  - https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/shapiro.test
+##  - https://cran.r-project.org/web/packages/olsrr/vignettes/residual_diagnostics.html
